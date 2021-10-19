@@ -21,8 +21,8 @@ public class SquareMatrix {
 
      public SquareMatrix getSubMatrix(int firstRow, int firstColumn, int dim){
         SquareMatrix subMatrix = new SquareMatrix(dim);
-        for(int i = firstRow ; i <= firstRow + dim-1 ; i++){
-            for(int j = firstColumn ; j <= firstColumn + dim-1 ; j++){
+        for(int i = firstRow ; i < firstRow + dim-1 ; i++){
+            for(int j = firstColumn ; j < firstColumn + dim-1 ; j++){
                 subMatrix.set(i, j, this.get(i, j));
             }
         }
@@ -31,11 +31,34 @@ public class SquareMatrix {
 
     public SquareMatrix setSubMatrix(SquareMatrix matrix, int row, int column){
         for(int i = row ; i < row + matrix.dimension-1 ; i++){
-            for(int j = column ; i < column + matrix.dimension-1 ; j++){
-
+            for(int j = column ; j < column + matrix.dimension-1 ; j++){
+                this.set(i, j, matrix.get(i, j));
             }
         }
-        return new SquareMatrix();
+        return this;
     }
+
+    public SquareMatrix sum(SquareMatrix matrix){
+        SquareMatrix sumSquareMatrix = new SquareMatrix(this.dimension);
+        for(int i = 0 ; i < this.dimension-1 ; i++){
+            for(int j = 0 ; j < this.dimension-1 ; j++){
+                sumSquareMatrix.set(i, j, this.get(i, j) + matrix.get(i, j));
+            }
+        }
+
+        return sumSquareMatrix;
+    }
+
+    public SquareMatrix subtract(SquareMatrix matrix){
+        SquareMatrix subtractSquareMatrix = new SquareMatrix(this.dimension);
+        for(int i = 0 ; i < this.dimension-1 ; i++){
+            for(int j = 0 ; j < this.dimension-1 ; j++){
+                subtractSquareMatrix.set(i, j, this.get(i, j) - matrix.get(i, j));
+            }
+        }
+
+        return subtractSquareMatrix;
+    }
+
 
 }
