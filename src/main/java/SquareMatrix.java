@@ -21,8 +21,8 @@ public class SquareMatrix {
 
      public SquareMatrix getSubMatrix(int firstRow, int firstColumn, int dim){
         SquareMatrix subMatrix = new SquareMatrix(dim);
-        for(int i = firstRow ; i < firstRow + dim-1 ; i++){
-            for(int j = firstColumn ; j < firstColumn + dim-1 ; j++){
+        for(int i = firstRow ; i < firstRow + dim ; i++){
+            for(int j = firstColumn ; j < firstColumn + dim ; j++){
                 subMatrix.set(i, j, this.get(i, j));
             }
         }
@@ -30,8 +30,8 @@ public class SquareMatrix {
     }
 
     public SquareMatrix setSubMatrix(SquareMatrix matrix, int row, int column){
-        for(int i = row ; i < row + matrix.dimension-1 ; i++){
-            for(int j = column ; j < column + matrix.dimension-1 ; j++){
+        for(int i = row ; i < row + matrix.dimension ; i++){
+            for(int j = column ; j < column + matrix.dimension; j++){
                 this.set(i, j, matrix.get(i, j));
             }
         }
@@ -40,24 +40,36 @@ public class SquareMatrix {
 
     public SquareMatrix sum(SquareMatrix matrix){
         SquareMatrix sumSquareMatrix = new SquareMatrix(this.dimension);
-        for(int i = 0 ; i < this.dimension-1 ; i++){
-            for(int j = 0 ; j < this.dimension-1 ; j++){
+        for(int i = 0 ; i < this.dimension ; i++){
+            for(int j = 0 ; j < this.dimension ; j++){
                 sumSquareMatrix.set(i, j, this.get(i, j) + matrix.get(i, j));
             }
         }
-
         return sumSquareMatrix;
     }
 
     public SquareMatrix subtract(SquareMatrix matrix){
         SquareMatrix subtractSquareMatrix = new SquareMatrix(this.dimension);
-        for(int i = 0 ; i < this.dimension-1 ; i++){
-            for(int j = 0 ; j < this.dimension-1 ; j++){
+        for(int i = 0 ; i < this.dimension; i++){
+            for(int j = 0 ; j < this.dimension ; j++){
                 subtractSquareMatrix.set(i, j, this.get(i, j) - matrix.get(i, j));
             }
         }
 
         return subtractSquareMatrix;
+    }
+
+    public SquareMatrix product(SquareMatrix matrix){
+        for(int i = 0; i < this.dimension ; i++){
+            for(int j = 0 ; j < this.dimension ; j++){
+                int product = 0;
+                for(int k = 0 ; k < this.dimension ; k++){
+                    product += this.get(i,k) * matrix.get(k,j);
+                }
+               this.set(i,j, product);
+            }
+        }
+        return this;
     }
 
 
