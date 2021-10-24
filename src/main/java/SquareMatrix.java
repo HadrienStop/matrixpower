@@ -86,18 +86,21 @@ public class SquareMatrix {
 
     public SquareMatrix power(int n){
         if(n == 0){
-            return null;
+            return SquareMatrix.identity(this.dimension);
         }
         else{
-            for(int i = 1 ; i <= n ; i++){
-                this.product(this);
-            }
+             return this.product(this.power(n-1));
         }
-        return this;
     }
 
     public SquareMatrix quickPower(int n){
+        if(n == 0){
+            return SquareMatrix.identity(this.dimension);
+        }
+        else if(n % 2 == 0){
 
+        }
+        return null;
     }
 
 }
