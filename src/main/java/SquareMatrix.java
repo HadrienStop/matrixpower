@@ -72,5 +72,32 @@ public class SquareMatrix {
         return this;
     }
 
+    public static SquareMatrix identity(int dimension){
+        SquareMatrix identityMatrix = new SquareMatrix(dimension);
+        for(int i = 0 ; i < dimension ; i++){
+            for(int j = 0 ; j < dimension ; j++){
+                if(i == j){
+                    identityMatrix.matrix[i][j] = 1;
+                }
+            }
+        }
+        return identityMatrix;
+    }
+
+    public SquareMatrix power(int n){
+        if(n == 0){
+            return null;
+        }
+        else{
+            for(int i = 1 ; i <= n ; i++){
+                this.product(this);
+            }
+        }
+        return this;
+    }
+
+    public SquareMatrix quickPower(int n){
+
+    }
 
 }
