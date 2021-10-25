@@ -10,6 +10,9 @@ public class SquareMatrix {
     public SquareMatrix(int initDimension) {
         this.dimension = initDimension;
         this.matrix = new int[this.dimension][this.dimension];
+        this.multiplicationsCount = 0;
+        this.addAndSubCount = 0;
+        this.allCount = 0;
     }
 
     public int getMatrixDimension() {
@@ -22,6 +25,18 @@ public class SquareMatrix {
 
     public void set(int row, int col, int value) {
         this.matrix[row][col] = value;
+    }
+
+    public int getAddAndSubCount() {
+        return addAndSubCount;
+    }
+
+    public int getMultiplicationsCount() {
+        return multiplicationsCount;
+    }
+
+    public int getAllCount() {
+        return allCount;
     }
 
     public SquareMatrix getSubMatrix(int firstRow, int firstColumn, int dim) {
@@ -43,6 +58,8 @@ public class SquareMatrix {
     }
 
     public SquareMatrix sum(SquareMatrix matrix) {
+        this.addAndSubCount += this.dimension*this.dimension;
+        this.allCount += this.dimension*this.dimension;
         for (int i = 0; i < this.dimension; i++) {
             for (int j = 0; j < this.dimension; j++) {
                 this.set(i, j, this.get(i, j) + matrix.get(i, j));
@@ -52,7 +69,8 @@ public class SquareMatrix {
     }
 
     public SquareMatrix subtract(SquareMatrix matrix) {
-
+        this.addAndSubCount += this.dimension*this.dimension;
+        this.allCount += this.dimension*this.dimension;
         for (int i = 0; i < this.dimension; i++) {
             for (int j = 0; j < this.dimension; j++) {
                 this.set(i, j, this.get(i, j) - matrix.get(i, j));
@@ -62,11 +80,11 @@ public class SquareMatrix {
     }
 
     public SquareMatrix product(SquareMatrix matrix) {
-        for (int i = 0; i < this.dimension; i++) {
+        for (int i = 0; i < this.dimension ; i++) {
             for (int j = 0; j < this.dimension; j++) {
                 int product = 0;
                 for (int k = 0; k < this.dimension; k++) {
-                    product += this.get(i, k) * matrix.get(k, j);
+                    product += this.matrix[i][k] * matrix.matrix[k][j];
                 }
                 this.set(i, j, product);
             }
@@ -174,7 +192,12 @@ public class SquareMatrix {
         return randomSquareMatrix;
     }
 
-
-
-
+    public void display () {
+        for (int value = 0; value < this.dimension; value++) {
+            for (int secondValue = 0; secondValue < this.dimension; secondValue++) {
+                System.out.print(this.matrix[value][secondValue] + "  ");
+            }
+            System.out.println();
+        }
+    }
 }
