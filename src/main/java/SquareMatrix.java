@@ -1,6 +1,11 @@
+import java.util.Random;
+
 public class SquareMatrix {
     private int dimension;
     private int[][] matrix;
+    private int addAndSubCount;
+    private int multiplicationsCount;
+    private int allCount;
 
     public SquareMatrix(int initDimension) {
         this.dimension = initDimension;
@@ -29,13 +34,12 @@ public class SquareMatrix {
         return subMatrix;
     }
 
-    public SquareMatrix setSubMatrix(SquareMatrix matrix, int row, int column) {
+    public void setSubMatrix(SquareMatrix matrix, int row, int column) {
         for (int i = row; i < row + matrix.dimension; i++) {
             for (int j = column; j < column + matrix.dimension; j++) {
                 this.set(i, j, matrix.get(i, j));
             }
         }
-        return this;
     }
 
     public SquareMatrix sum(SquareMatrix matrix) {
@@ -103,8 +107,21 @@ public class SquareMatrix {
     }
 
     public SquareMatrix quickProduct(SquareMatrix matrix){
-        if(matrix.dimension % 2 != 0 && this.dimension != matrix.dimension){
+        if(this.dimension != matrix.dimension){
             return null;
+        }
+        else if(this.dimension % 2 != 0 && this.dimension != 1){
+            SquareMatrix identityMatrix1 = SquareMatrix.identity(this.dimension  + 1);
+            SquareMatrix identityMatrix2 = SquareMatrix.identity(this.dimension  + 1);
+            identityMatrix1.setSubMatrix(this, 0, 0);
+            identityMatrix1.setSubMatrix(matrix, 0, 0);
+            identityMatrix1.quickProduct(identityMatrix2);
+            this.setSubMatrix(identityMatrix1,0, 0);
+            return this;
+        }
+        else if(this.dimension == 1){
+            this.set(0,0,this.get(0,0) * matrix.get(0,0));
+            return this;
         }
         else{
             SquareMatrix A1 = this.getSubMatrix(0, 0, this.dimension/2);
@@ -131,6 +148,7 @@ public class SquareMatrix {
 
             return this;
         }
+
     }
 
     public SquareMatrix veryQuickPower(int n) {
@@ -139,10 +157,21 @@ public class SquareMatrix {
         } else if (n % 2 == 0 && n > 1) {
             return this.quickProduct(this).veryQuickPower(n / 2);
         } else if (n % 2 != 0 && n > 1) {
-            return this.product(this.quickProduct(this).veryQuickPower((n-1)/2));
+            return this.quickProduct(this.quickProduct(this).veryQuickPower((n-1)/2));
         } else {
             return null;
         }
+    }
+
+    public static SquareMatrix createRandomMatrix(int dimension){
+        Random random = new Random();
+        SquareMatrix randomSquareMatrix = new SquareMatrix(dimension);
+        for(int row = 0 ; row < dimension ; row++){
+            for(int col = 0 ; col < dimension ; col++){
+                randomSquareMatrix.set(row, col, -10 + random.nextInt(21));
+            }
+        }
+        return randomSquareMatrix;
     }
 
 
