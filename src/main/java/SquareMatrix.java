@@ -80,15 +80,17 @@ public class SquareMatrix {
     }
 
     public SquareMatrix product(SquareMatrix matrix) {
+        SquareMatrix newProductMatrix = new SquareMatrix(this.dimension);
         for (int i = 0; i < this.dimension ; i++) {
             for (int j = 0; j < this.dimension; j++) {
                 int product = 0;
                 for (int k = 0; k < this.dimension; k++) {
                     product += this.matrix[i][k] * matrix.matrix[k][j];
                 }
-                this.set(i, j, product);
+                newProductMatrix.set(i, j, product);
             }
         }
+        this.matrix = newProductMatrix.matrix;
         return this;
     }
 

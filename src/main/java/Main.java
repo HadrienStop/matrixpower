@@ -6,8 +6,7 @@ public class Main {
         SquareMatrix squareMatrix2 = SquareMatrix.createRandomMatrix(2);
         squareMatrix2.display();
         System.out.println(" ");
-        SquareMatrix productSquareMatrix = squareMatrix1.product(squareMatrix2);
-        productSquareMatrix.display();
+       squareMatrix1.quickProduct(squareMatrix2);
 
 
 
