@@ -39,24 +39,22 @@ public class SquareMatrix {
     }
 
     public SquareMatrix sum(SquareMatrix matrix) {
-        SquareMatrix sumSquareMatrix = new SquareMatrix(this.dimension);
         for (int i = 0; i < this.dimension; i++) {
             for (int j = 0; j < this.dimension; j++) {
-                sumSquareMatrix.set(i, j, this.get(i, j) + matrix.get(i, j));
+                this.set(i, j, this.get(i, j) + matrix.get(i, j));
             }
         }
-        return sumSquareMatrix;
+        return this;
     }
 
     public SquareMatrix subtract(SquareMatrix matrix) {
-        SquareMatrix subtractSquareMatrix = new SquareMatrix(this.dimension);
+
         for (int i = 0; i < this.dimension; i++) {
             for (int j = 0; j < this.dimension; j++) {
-                subtractSquareMatrix.set(i, j, this.get(i, j) - matrix.get(i, j));
+                this.set(i, j, this.get(i, j) - matrix.get(i, j));
             }
         }
-
-        return subtractSquareMatrix;
+        return this;
     }
 
     public SquareMatrix product(SquareMatrix matrix) {
@@ -103,4 +101,51 @@ public class SquareMatrix {
             return null;
         }
     }
+
+    public SquareMatrix quickProduct(SquareMatrix matrix){
+        if(matrix.dimension % 2 != 0 && this.dimension != matrix.dimension){
+            return null;
+        }
+        else{
+            SquareMatrix A1 = this.getSubMatrix(0, 0, this.dimension/2);
+            SquareMatrix B1 = this.getSubMatrix(0, this.dimension/2, this.dimension/2);
+            SquareMatrix C1 = this.getSubMatrix(this.dimension/2, 0, this.dimension/2);
+            SquareMatrix D1 = this.getSubMatrix(this.dimension/2, this.dimension/2, this.dimension/2);
+            SquareMatrix A2 = matrix.getSubMatrix(0,0, this.dimension/2);
+            SquareMatrix B2 = matrix.getSubMatrix(0, this.dimension/2, this.dimension/2);
+            SquareMatrix C2 = matrix.getSubMatrix(this.dimension/2, 0, this.dimension/2);
+            SquareMatrix D2 = matrix.getSubMatrix(this.dimension/2, this.dimension/2, this.dimension/2);
+
+            SquareMatrix m1 = A1.sum(D1).quickProduct(A2.sum(D2));
+            SquareMatrix m2 = C1.sum(D1).quickProduct(A2);
+            SquareMatrix m3 = A1.quickProduct(B2.subtract(D2));
+            SquareMatrix m4 = D1.quickProduct(C2.subtract(A2));
+            SquareMatrix m5 = A1.sum(B1).quickProduct(D2);
+            SquareMatrix m6 = C1.subtract(A1).quickProduct(A2.sum(B2));
+            SquareMatrix m7 = B1.subtract(D1).quickProduct(C2.sum(D2));
+
+            this.setSubMatrix(m1.sum(m4).subtract(m5.sum(m7)), 0, 0);
+            this.setSubMatrix(m3.sum(m5),0, this.dimension/2);
+            this.setSubMatrix(m2.sum(m4),this.dimension/2, 0);
+            this.setSubMatrix(m1.subtract(m2).sum(m3.sum(m6)),this.dimension/2, this.dimension/2 );
+
+            return this;
+        }
+    }
+
+    public SquareMatrix veryQuickPower(int n) {
+        if (n == 0) {
+            return SquareMatrix.identity(this.dimension);
+        } else if (n % 2 == 0 && n > 1) {
+            return this.quickProduct(this).veryQuickPower(n / 2);
+        } else if (n % 2 != 0 && n > 1) {
+            return this.product(this.quickProduct(this).veryQuickPower((n-1)/2));
+        } else {
+            return null;
+        }
+    }
+
+
+
+
 }
