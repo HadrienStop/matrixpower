@@ -87,6 +87,7 @@ public class SquareMatrix {
                 for (int k = 0; k < this.dimension; k++) {
                     product += this.matrix[i][k] * matrix.matrix[k][j];
                     this.addAndSubCount += 1;
+                    this.multiplicationsCount += 1;
                     this.allCount += 1;
                 }
                 newProductMatrix.set(i, j, product);
@@ -109,10 +110,14 @@ public class SquareMatrix {
     }
 
     public SquareMatrix power(int n) {
+        SquareMatrix newSquareMatrix = new SquareMatrix(this.dimension);
+        newSquareMatrix.matrix = this.matrix;
         if (n == 0) {
             return SquareMatrix.identity(this.dimension);
         } else {
-            return this.product(this.power(n - 1));
+            newSquareMatrix.product(newSquareMatrix.power(n - 1));
+            this.matrix = newSquareMatrix.matrix;
+            return this;
         }
     }
 
@@ -169,6 +174,7 @@ public class SquareMatrix {
             newSquareMatrix.setSubMatrix(m3.sum(m5),0, this.dimension/2);
             newSquareMatrix.setSubMatrix(m2.sum(m4),this.dimension/2, 0);
             newSquareMatrix.setSubMatrix(m1.subtract(m2).sum(m3.sum(m6)),this.dimension/2, this.dimension/2);
+
 
             this.matrix = newSquareMatrix.matrix;
             return this;
