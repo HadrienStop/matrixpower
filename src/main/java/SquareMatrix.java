@@ -86,6 +86,8 @@ public class SquareMatrix {
                 int product = 0;
                 for (int k = 0; k < this.dimension; k++) {
                     product += this.matrix[i][k] * matrix.matrix[k][j];
+                    this.addAndSubCount += 1;
+                    this.allCount += 1;
                 }
                 newProductMatrix.set(i, j, product);
             }
@@ -128,6 +130,7 @@ public class SquareMatrix {
     }
 
     public SquareMatrix quickProduct(SquareMatrix matrix){
+        SquareMatrix newSquareMatrix = new SquareMatrix(this.dimension);
         if(this.dimension != matrix.dimension){
             return null;
         }
@@ -154,7 +157,7 @@ public class SquareMatrix {
             SquareMatrix C2 = matrix.getSubMatrix(this.dimension/2, 0, this.dimension/2);
             SquareMatrix D2 = matrix.getSubMatrix(this.dimension/2, this.dimension/2, this.dimension/2);
 
-           SquareMatrix m1 = A1.sum(D1).quickProduct(A2.sum(D2));
+            SquareMatrix m1 = A1.sum(D1).quickProduct(A2.sum(D2));
             SquareMatrix m2 = C1.sum(D1).quickProduct(A2);
             SquareMatrix m3 = A1.quickProduct(B2.subtract(D2));
             SquareMatrix m4 = D1.quickProduct(C2.subtract(A2));
@@ -162,11 +165,12 @@ public class SquareMatrix {
             SquareMatrix m6 = C1.subtract(A1).quickProduct(A2.sum(B2));
             SquareMatrix m7 = B1.subtract(D1).quickProduct(C2.sum(D2));
 
-            this.setSubMatrix(m1.sum(m4).subtract(m5.sum(m7)), 0, 0);
-            this.setSubMatrix(m3.sum(m5),0, this.dimension/2);
-            this.setSubMatrix(m2.sum(m4),this.dimension/2, 0);
-            this.setSubMatrix(m1.subtract(m2).sum(m3.sum(m6)),this.dimension/2, this.dimension/2 );
+            newSquareMatrix.setSubMatrix(m1.sum(m4).subtract(m5.sum(m7)), 0, 0);
+            newSquareMatrix.setSubMatrix(m3.sum(m5),0, this.dimension/2);
+            newSquareMatrix.setSubMatrix(m2.sum(m4),this.dimension/2, 0);
+            newSquareMatrix.setSubMatrix(m1.subtract(m2).sum(m3.sum(m6)),this.dimension/2, this.dimension/2);
 
+            this.matrix = newSquareMatrix.matrix;
             return this;
        }
 

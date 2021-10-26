@@ -44,7 +44,7 @@ public class SquareMatrixTest {
         squareMatrix1.set(0,1,2);
         squareMatrix1.set(1,0,3);
         squareMatrix1.set(1,1,4);
-        assertThat(squareMatrix1.quickPower(3)).isEqualTo(squareMatrix1.product(squareMatrix1.product(squareMatrix1)));
+        assertThat(squareMatrix1.quickPower(2)).isEqualTo(squareMatrix1.product(squareMatrix1.product(squareMatrix1)));
     }
 
 }
